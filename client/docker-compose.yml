@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  music-client:
+    container_name: music-client
+    build: .
+    ports:
+      - '80:80'
+

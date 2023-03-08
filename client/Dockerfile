@@ -1,12 +1,14 @@
-FROM node:14.9.0 AS build-step
-
-WORKDIR /build
-COPY package.json package-lock.json ./
+FROM node:18.15-alpine AS build
+WORKDIR /app
+COPY package.json ./
 RUN npm install
-
 COPY . .
 RUN npm run build
 
-FROM nginx:1.18-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build-step /build/build /frontend/build
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
