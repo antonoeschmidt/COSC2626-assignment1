@@ -1,7 +1,8 @@
 FROM node:18.15-alpine AS build
+ENV NODE_ENV production
 WORKDIR /app
 COPY package.json ./
-RUN npm install
+RUN npm install --production
 COPY . .
 RUN npm run build
 

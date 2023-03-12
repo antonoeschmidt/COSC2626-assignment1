@@ -1,13 +1,36 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 
 const RegisterPage = () => {
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const handleClick = () => {
-        console.log(username, password);
+    const handleClick = async () => {
+        if (!email || !password) {
+            alert("Please enter email and password");
+            return;
+        }
+
+        const res = await fetch(`${process.env.REACT_APP_BACKEND}/register`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, email, password }),
+        });
+        const data = await res.json();
+
+        if (res.status !== 200) {
+            alert("Register failed");
+            console.log(data);
+            return;
+        }
+        navigate("/login");
     };
 
     return (
@@ -20,9 +43,19 @@ const RegisterPage = () => {
                 id="username"
                 label="Username"
                 name="username"
-                autoComplete="email"
+                autoComplete="username"
                 autoFocus
                 onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
                 margin="normal"

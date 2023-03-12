@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,11 +11,6 @@ export type NavbarProps = {
 
 const Navbar = (props: NavbarProps) => {
     const navigate = useNavigate();
-    
-    useEffect(() => {
-      console.log(props.loggedIn)
-    }, [])
-    
 
     return (
         <div style={{ display: "flex" }}>

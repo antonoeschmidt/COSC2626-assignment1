@@ -45,9 +45,9 @@ const LoginPage = (props: LoginPageProps) => {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
+                id="email"
+                label="Email"
+                name="email"
                 autoComplete="email"
                 autoFocus
                 onChange={(e) => setEmail(e.target.value)}
