@@ -1,13 +1,41 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
-const LoginPage = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+export type LoginPageProps = {
+    loggedIn: boolean;
+    setLoggedIn: Dispatch<SetStateAction<boolean>>;
+};
 
-    const handleClick = () => {
-        console.log(username, password);
+const LoginPage = (props: LoginPageProps) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const handleClick = async () => {
+        if (!email || !password) {
+            alert("Please enter email and password");
+            return;
+        }
+
+        const res = await fetch(`${process.env.REACT_APP_BACKEND}/login`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+
+        if (res.status !== 200) {
+            alert("Email or password is incorrect");
+            console.log(data);
+            return;
+        }
+        props.setLoggedIn(true);
+        navigate("/");
     };
 
     return (
@@ -22,7 +50,7 @@ const LoginPage = () => {
                 name="username"
                 autoComplete="email"
                 autoFocus
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
                 margin="normal"
