@@ -13,6 +13,7 @@ one at a time. A bulk operation might have been more optimised.
 import boto3
 from botocore.exceptions import ClientError
 import json
+import uuid
 
 dynamodb = boto3.client('dynamodb')
 with open('a1.json') as f:
@@ -29,6 +30,7 @@ for item in songs:
         dynamodb.put_item(
             TableName='music',
             Item={
+                'id': {'S': str(uuid.uuid4())},
                 'title': {'S': item['title']},
                 'artist': {'S': item['artist']},
                 'year': {'N': str(item['year'])},

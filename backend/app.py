@@ -12,12 +12,16 @@ app = Flask(__name__)
 CORS(app)
 
 dynamodb = boto3.client('dynamodb', region_name='us-east-1')
-table_name = 'login'
+
+@app.route('/')
+def hello():
+    return 'Hello world'
 
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     email, password = data['email'], data['password']
+    table_name = 'login'
 
     try:
         response = dynamodb.get_item(
@@ -30,7 +34,8 @@ def login():
         
         item = response['Item']
         if email == item['email']['S'] and password == item['password']['S']:
-            return jsonify({'message': 'Login successful'}), 200
+            user = {'email': item['email']['S'], 'username': item['user_name']['S']}
+            return jsonify({'message': 'Login successful', 'user': user}), 200
         
         return jsonify({'message': 'Email or password is invalid'}), 401
 
@@ -43,6 +48,7 @@ def login():
 def register():
     data = request.get_json()
     email, password, username = data['email'], data['password'], data['username']
+    table_name = 'login'
 
     try:
         response = dynamodb.get_item(
@@ -68,6 +74,19 @@ def register():
     except:
         print('Error getting data')
         return jsonify({'message': 'Error getting data'}), 500
+
+
+@app.route("/music")
+def get_music():
+    table_name = 'music'
+
+    response = dynamodb.scan(
+        TableName=table_name
+    )
+
+    return jsonify(response)
+
+
 
 
 if __name__ == '__main__':

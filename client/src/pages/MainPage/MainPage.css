@@ -1,0 +1,17 @@
+.main-container {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+}
+
+.subscribed-area {
+    flex-grow: 1
+}
+
+.query-area {
+    flex-grow: 2
+}

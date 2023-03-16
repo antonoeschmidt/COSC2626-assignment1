@@ -1,11 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../models/User";
 import "./LoginPage.css";
 
 export type LoginPageProps = {
     loggedIn: boolean;
     setLoggedIn: Dispatch<SetStateAction<boolean>>;
+    setUser: Dispatch<SetStateAction<User>>;
 };
 
 const LoginPage = (props: LoginPageProps) => {
@@ -35,6 +37,8 @@ const LoginPage = (props: LoginPageProps) => {
             return;
         }
         props.setLoggedIn(true);
+        console.log(data.user)
+        props.setUser(data.user)
         navigate("/");
     };
 

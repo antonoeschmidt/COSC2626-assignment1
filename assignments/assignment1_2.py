@@ -21,21 +21,21 @@ dynamodb = boto3.client('dynamodb')
 table_name = 'music'
 key_schema = [
     {
-        'AttributeName': 'title',
+        'AttributeName': 'id',
         'KeyType': 'HASH'
     },
     {
-        'AttributeName': 'artist',
+        'AttributeName': 'title',
         'KeyType': 'RANGE'
     },
 ]
 attribute_definitions = [
     {
-        'AttributeName': 'title',
+        'AttributeName': 'id',
         'AttributeType': 'S'
     },
     {
-        'AttributeName': 'artist',
+        'AttributeName': 'title',
         'AttributeType': 'S'
     }
 ]

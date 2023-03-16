@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
+import { User } from "./models/User";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
@@ -8,6 +9,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState<User>()
 
     return (
         <div className="App">
@@ -18,7 +20,7 @@ const App = () => {
                         path="/"
                         element={
                             <PrivateRoute loggedIn={loggedIn}>
-                                <MainPage />
+                                <MainPage user={user}/>
                             </PrivateRoute>
                         }
                     />
@@ -28,6 +30,7 @@ const App = () => {
                             <LoginPage
                                 loggedIn={loggedIn}
                                 setLoggedIn={setLoggedIn}
+                                setUser={setUser}
                             />
                         }
                     />
