@@ -6,6 +6,7 @@ import "./MainPage.css"
 
 export type MainPageProps = {
     user: User;
+    setUser: React.Dispatch<React.SetStateAction<User>>
 }
 
 const MainPage = (props: MainPageProps) => {
@@ -16,10 +17,10 @@ const MainPage = (props: MainPageProps) => {
             <h3>Username: {props.user.username}</h3>
             <div className="content">
             <div className="subscribed-area">
-                <Subscribed/>
+                <Subscribed user={props.user} setUser={props.setUser}/>
             </div>
             <div className="query-area">
-                <Query/>
+                <Query user={props.user} setUser={props.setUser}/>
             </div>
             </div>
         </div>

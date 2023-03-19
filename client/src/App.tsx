@@ -20,7 +20,7 @@ const App = () => {
                         path="/"
                         element={
                             <PrivateRoute loggedIn={loggedIn}>
-                                <MainPage user={user}/>
+                                <MainPage user={user} setUser={setUser}/>
                             </PrivateRoute>
                         }
                     />

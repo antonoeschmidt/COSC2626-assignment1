@@ -34,7 +34,11 @@ def login():
         
         item = response['Item']
         if email == item['email']['S'] and password == item['password']['S']:
-            user = {'email': item['email']['S'], 'username': item['user_name']['S']}
+            if 'subs' in item:
+                user = {'email': item['email']['S'], 'username': item['user_name']['S'], 'subs': item['subs']['SS']}
+            else:
+                user = {'email': item['email']['S'], 'username': item['user_name']['S']}
+
             return jsonify({'message': 'Login successful', 'user': user}), 200
         
         return jsonify({'message': 'Email or password is invalid'}), 401
@@ -83,8 +87,24 @@ def get_music():
     response = dynamodb.scan(
         TableName=table_name
     )
-
     return jsonify(response)
+
+@app.route("/user", methods=['PUT'])
+def update_user():
+    data = request.get_json()
+    subs, email = data['subs'], data['email']
+    update_expression = 'SET subs = :new_value'
+    expression_attribute_values = {':new_value': {'SS': subs}}
+
+    response = dynamodb.update_item(
+        TableName='login',
+        Key={
+            'email': {'S': email},
+        },
+        UpdateExpression=update_expression,
+        ExpressionAttributeValues=expression_attribute_values
+)
+    return jsonify({'message': 'Subscribed”'})
 
 
 
