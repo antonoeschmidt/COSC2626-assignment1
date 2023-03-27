@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export type NavbarProps = {
     loggedIn: boolean;
+    setLoggedIn: (loggedIn: boolean) => void;
 };
 
 const Navbar = (props: NavbarProps) => {
@@ -23,20 +24,40 @@ const Navbar = (props: NavbarProps) => {
                     >
                         Music at RMIT
                     </Typography>
-                    {props.loggedIn && (
-                        <Button color="inherit" onClick={() => navigate("/")}>
-                            Home
-                        </Button>
+                    {props.loggedIn ? (
+                        <div>
+                            <Button
+                                color="inherit"
+                                onClick={() => navigate("/")}
+                            >
+                                Home
+                            </Button>
+                            <Button
+                                color="inherit"
+                                onClick={() => {
+                                    props.setLoggedIn(false);
+                                    navigate("/login");
+                                }}
+                            >
+                                Logout
+                            </Button>
+                        </div>
+                    ) : (
+                        <div>
+                            <Button
+                                color="inherit"
+                                onClick={() => navigate("/login")}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                color="inherit"
+                                onClick={() => navigate("/register")}
+                            >
+                                Register
+                            </Button>
+                        </div>
                     )}
-                    <Button color="inherit" onClick={() => navigate("/login")}>
-                        Login
-                    </Button>
-                    <Button
-                        color="inherit"
-                        onClick={() => navigate("/register")}
-                    >
-                        Register
-                    </Button>
                 </Toolbar>
             </AppBar>
         </div>
